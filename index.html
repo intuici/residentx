@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ResidentX — Резидентство Сколково для IT-стартапов</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* ===== СЕРО-ГОЛУБАЯ ЦВЕТОВАЯ СХЕМА ===== */
+    :root {
+      --bg-primary: #f0f0f0;
+      --bg-secondary: #e3eaf0;
+      --accent-light: #b9cedf;
+      --accent-medium: #8faec9;
+      --accent-dark: #4f6f8f;
+      --text-dark: #2c3e4e;
+      --text-muted: #5a6f7e;
+      --white: #ffffff;
+      --shadow-color: rgba(79, 111, 143, 0.15);
+      --gradient: linear-gradient(135deg, var(--accent-medium), var(--accent-dark));
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-dark);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    h1, h2, h3, h4 {
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--text-dark);
+    }
+
+    h1 {
+      font-size: 3.2rem;
+      margin-bottom: 1.2rem;
+    }
+
+    h2 {
+      font-size: 2.6rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 70px;
+      height: 4px;
+      background: var(--gradient);
+      border-radius: 2px;
+      opacity: 0.5;
+    }
+
+    .section-title-center {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-title-center h2::after {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      margin-bottom: 1.2rem;
+    }
+
+    .btn {
+      background: var(--gradient);
+      color: var(--white);
+      border: none;
+      padding: 16px 32px;
+      border-radius: 40px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 8px 20px var(--shadow-color);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(79, 111, 143, 0.3);
+      background: linear-gradient(135deg, var(--accent-dark), var(--accent-medium));
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--accent-light);
+      z-index: 1000;
+      padding: 15px 0;
+      transition: all 0.3s ease;
+    }
+
+    .header-scrolled {
+      padding: 10px 0;
+      box-shadow: 0 4px 20px var(--shadow-color);
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.6rem;
+      color: var(--text-dark);
+      cursor: pointer;
+    }
+
+    .logo-icon {
+      color: var(--accent-dark);
+      font-size: 2rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+    }
+
+    .nav-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-link:hover {
+      color: var(--accent-dark);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--accent-dark);
+      font-size: 1.8rem;
+      cursor: pointer;
+    }
+
+    /* ===== ГЛАВНЫЙ ЭКРАН ===== */
+    .hero {
+      padding: 150px 30px 80px;
+      background: linear-gradient(120deg, rgba(240,240,240,0.85), rgba(227,234,240,0.9)), url('fotogid.png');
+      background-size: cover;
+      background-position: center 30%;
+      background-repeat: no-repeat;
+      min-height: 90vh;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      color: var(--accent-dark);
+      margin-bottom: 15px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      background: rgba(143, 174, 201, 0.2);
+      display: inline-block;
+      padding: 6px 18px;
+      border-radius: 30px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 30px;
+      margin: 40px 0;
+    }
+
+    .stat-item {
+      text-align: left;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+      display: block;
+      line-height: 1;
+      margin-bottom: 5px;
+    }
+
+    .stat-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .hero-visual {
+      background: var(--white);
+      border-radius: 30px;
+      padding: 30px;
+      box-shadow: 0 20px 40px var(--shadow-color);
+    }
+
+    .benefits-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .benefit-item {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 18px 22px;
+      background: var(--bg-primary);
+      border-radius: 20px;
+      transition: all 0.3s;
+      border: 1px solid transparent;
+    }
+
+    .benefit-item:hover {
+      border-color: var(--accent-light);
+      background: var(--white);
+      transform: translateX(5px);
+    }
+
+    .benefit-icon {
+      width: 55px;
+      height: 55px;
+      background: var(--accent-light);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      color: var(--accent-dark);
+    }
+
+    .benefit-highlight {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+      line-height: 1.2;
+    }
+
+    .benefit-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 0;
+    }
+
+    /* ===== ПРЕИМУЩЕСТВА ===== */
+    .advantages {
+      padding: 80px 30px;
+      background: var(--white);
+    }
+
+    .advantages-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .advantages-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+    }
+
+    .advantage-card {
+      background: var(--bg-primary);
+      border-radius: 24px;
+      padding: 35px 25px;
+      transition: all 0.5s ease;
+      border: 1px solid var(--accent-light);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .advantage-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: var(--gradient);
+      opacity: 0.5;
+    }
+
+    .advantage-card:hover {
+      transform: translateY(-15px) scale(1.02);
+      box-shadow: 0 20px 40px var(--shadow-color);
+      border-color: var(--accent-medium);
+    }
+
+    .advantage-icon {
+      font-size: 2.8rem;
+      color: var(--accent-dark);
+      margin-bottom: 20px;
+      transition: transform 0.5s;
+    }
+
+    .advantage-card:hover .advantage-icon {
+      transform: rotate(5deg) scale(1.1);
+    }
+
+    .advantage-title {
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      color: var(--text-dark);
+    }
+
+    /* ===== СЛАЙД: КОГДА НУЖНЫ НАШИ УСЛУГИ ===== */
+    .when-need {
+      padding: 80px 30px;
+      background: var(--bg-secondary);
+    }
+
+    .when-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .when-card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 40px 30px;
+      text-align: center;
+      transition: all 0.4s;
+      box-shadow: 0 10px 30px var(--shadow-color);
+      border: 1px solid var(--accent-light);
+    }
+
+    .when-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px var(--shadow-color);
+    }
+
+    .when-icon {
+      width: 70px;
+      height: 70px;
+      background: var(--accent-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-size: 2rem;
+      color: var(--accent-dark);
+    }
+
+    .when-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+      color: var(--text-dark);
+    }
+
+    .when-card p {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: 0;
+    }
+
+    /* ===== ДОРОЖНАЯ КАРТА (ПРОЦЕСС) ===== */
+    .process {
+      padding: 80px 30px;
+      background: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .process::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(45deg, var(--accent-light) 0px, var(--accent-light) 2px, transparent 2px, transparent 8px);
+      opacity: 0.1;
+      pointer-events: none;
+    }
+
+    .process-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .process-steps {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      margin-top: 60px;
+    }
+
+    .process-steps::before {
+      content: '';
+      position: absolute;
+      top: 50px;
+      left: 50px;
+      width: calc(100% - 100px);
+      height: 4px;
+      background: var(--gradient);
+      opacity: 0.3;
+      z-index: 1;
+    }
+
+    .process-step {
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      width: 220px;
+    }
+
+    .step-number {
+      width: 100px;
+      height: 100px;
+      background: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin: 0 auto 25px;
+      border: 4px solid var(--accent-light);
+      box-shadow: 0 10px 30px var(--shadow-color);
+      transition: all 0.5s ease;
+    }
+
+    .process-step:hover .step-number {
+      transform: scale(1.1) rotate(5deg);
+      border-color: var(--accent-dark);
+    }
+
+    .step-title {
+      font-size: 1.4rem;
+      margin-bottom: 10px;
+      color: var(--text-dark);
+    }
+
+    /* ===== КАЛЬКУЛЯТОР ===== */
+    .calculator {
+      padding: 80px 30px;
+      background: var(--bg-secondary);
+    }
+
+    .calculator-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--white);
+      border-radius: 30px;
+      padding: 50px;
+      box-shadow: 0 20px 40px var(--shadow-color);
+    }
+
+    .calculator-inputs {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 25px;
+      margin: 40px 0;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .input-group label {
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .input-group input {
+      padding: 15px 18px;
+      background: var(--bg-primary);
+      border: 2px solid var(--accent-light);
+      border-radius: 16px;
+      color: var(--text-dark);
+      font-size: 1rem;
+    }
+
+    .input-group input:focus {
+      outline: none;
+      border-color: var(--accent-dark);
+    }
+
+    .calculator-result {
+      text-align: center;
+      padding: 35px;
+      background: var(--bg-secondary);
+      border-radius: 20px;
+      margin-top: 40px;
+      border: 2px solid var(--accent-light);
+    }
+
+    .result-amount {
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: var(--accent-dark);
+    }
+
+    /* ===== CTA ===== */
+    .cta {
+      padding: 100px 30px;
+      background: linear-gradient(135deg, var(--accent-light), var(--bg-secondary));
+      text-align: center;
+    }
+
+    .cta-title {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    /* ===== ПОДВАЛ ===== */
+    footer {
+      background: var(--text-dark);
+      padding: 70px 30px 30px;
+      color: var(--bg-primary);
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 80px;
+      margin-bottom: 50px;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .footer-logo i {
+      color: var(--accent-light);
+    }
+
+    .footer-description {
+      color: var(--accent-light);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 25px;
+      opacity: 0.9;
+      max-width: 350px;
+    }
+
+    .footer-title {
+      color: var(--white);
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .contact-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--accent-light);
+    }
+
+    .contact-row i {
+      width: 20px;
+      color: var(--white);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .social-link {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      transition: all 0.3s;
+    }
+
+    .social-link:hover {
+      background: var(--accent-light);
+      color: var(--text-dark);
+      transform: translateY(-3px);
+    }
+
+    .copyright {
+      text-align: center;
+      padding-top: 30px;
+      border-top: 1px solid rgba(185, 206, 223, 0.2);
+      color: var(--accent-light);
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    /* ===== МОДАЛЬНОЕ ОКНО ===== */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(44, 62, 78, 0.95);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(5px);
+    }
+
+    .modal-content {
+      background: var(--white);
+      border-radius: 30px;
+      padding: 50px;
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: var(--bg-primary);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 1.8rem;
+      cursor: pointer;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 18px 20px;
+      background: var(--bg-primary);
+      border: 2px solid var(--accent-light);
+      border-radius: 16px;
+      font-size: 1rem;
+    }
+
+    @media (max-width: 992px) {
+      .hero-container { grid-template-columns: 1fr; }
+      .advantages-grid { grid-template-columns: repeat(2, 1fr); }
+      .when-grid { grid-template-columns: repeat(2, 1fr); }
+      .process-steps { flex-direction: column; align-items: center; gap: 40px; }
+      .process-steps::before { display: none; }
+      .footer-container { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+      .footer-description { margin: 0 auto 25px auto; }
+      .contact-row { justify-content: center; }
+      .social-links { justify-content: center; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .mobile-menu-btn { display: block; }
+      .advantages-grid { grid-template-columns: 1fr; }
+      .when-grid { grid-template-columns: 1fr; }
+      .calculator-inputs { grid-template-columns: 1fr; }
+      .hero { background-position: center 20%; }
+    }
+  </style>
+</head>
+<body>
+  <header id="header">
+    <div class="header-container">
+      <div class="logo" onclick="scrollToTop()">
+        <i class="fas fa-cube logo-icon"></i>
+        <span>ResidentX</span>
+      </div>
+      <nav>
+        <div class="nav-links">
+          <a href="#advantages" class="nav-link">Преимущества</a>
+          <a href="#when-need" class="nav-link">Кому нужно</a>
+          <a href="#process" class="nav-link">Как получить</a>
+          <a href="#calculator" class="nav-link">Калькулятор</a>
+          <a href="#footer" class="nav-link">Контакты</a>
+        </div>
+        <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
+      </nav>
+      <button class="btn" onclick="openModal()"><i class="fas fa-headset"></i> Консультация</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-container">
+      <div class="hero-content">
+        <div class="hero-subtitle">ResidentX</div>
+        <h1>Резидентство Сколково<br>для IT-стартапов</h1>
+        <p>Статус Сколково для технологических компаний под ключ. Пока вы развиваете продукт, мы готовим документы.</p>
+        <div class="hero-stats">
+          <div class="stat-item"><span class="stat-number">90%</span><span class="stat-text">Успешных кейсов</span></div>
+          <div class="stat-item"><span class="stat-number">90</span><span class="stat-text">Дней до статуса</span></div>
+          <div class="stat-item"><span class="stat-number">10</span><span class="stat-text">Лет льгот</span></div>
+        </div>
+        <button class="btn" onclick="openModal()"><i class="fas fa-rocket"></i> Получить резидентство</button>
+      </div>
+      <div class="hero-visual">
+        <div class="benefits-grid">
+          <div class="benefit-item"><div class="benefit-icon"><i class="fas fa-percent"></i></div><div class="benefit-info"><div class="benefit-highlight">0% НДФЛ</div><p class="benefit-desc">Для сотрудников-резидентов</p></div></div>
+          <div class="benefit-item"><div class="benefit-icon"><i class="fas fa-chart-pie"></i></div><div class="benefit-info"><div class="benefit-highlight">14% взносы</div><p class="benefit-desc">Вместо стандартных 30%</p></div></div>
+          <div class="benefit-item"><div class="benefit-icon"><i class="fas fa-clock"></i></div><div class="benefit-info"><div class="benefit-highlight">10 лет</div><p class="benefit-desc">Статус резидента</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="advantages" id="advantages">
+    <div class="advantages-container">
+      <div class="section-title-center"><h2>Почему Сколково</h2><p>Ключевые преимущества для вашего бизнеса</p></div>
+      <div class="advantages-grid">
+        <div class="advantage-card"><i class="fas fa-money-bill-wave advantage-icon"></i><h3 class="advantage-title">Налоговые льготы</h3><p>0% НДФЛ для сотрудников, снижение страховых взносов до 14%.</p></div>
+        <div class="advantage-card"><i class="fas fa-users advantage-icon"></i><h3 class="advantage-title">Привлечение талантов</h3><p>Упрощенный порядок привлечения иностранных специалистов.</p></div>
+        <div class="advantage-card"><i class="fas fa-globe advantage-icon"></i><h3 class="advantage-title">Международная экспертиза</h3><p>Доступ к международным рынкам, партнерство с ведущими компаниями.</p></div>
+        <div class="advantage-card"><i class="fas fa-infinity advantage-icon"></i><h3 class="advantage-title">Долгосрочная перспектива</h3><p>Резидентство на 10 лет с возможностью продления.</p></div>
+        <div class="advantage-card"><i class="fas fa-gem advantage-icon"></i><h3 class="advantage-title">Престиж и репутация</h3><p>Статус резидента повышает доверие инвесторов.</p></div>
+        <div class="advantage-card"><i class="fas fa-bolt advantage-icon"></i><h3 class="advantage-title">Ускоренные процедуры</h3><p>Упрощенное оформление документов, сокращенные сроки.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- СЛАЙД: КОГДА НУЖНЫ НАШИ УСЛУГИ -->
+  <section class="when-need" id="when-need">
+    <div class="container" style="max-width: 1200px; margin: 0 auto;">
+      <div class="section-title-center"><h2>Когда обращаются к нам</h2><p>Ситуации, в которых мы становимся надежным партнером</p></div>
+      <div class="when-grid">
+        <div class="when-card">
+          <div class="when-icon"><i class="fas fa-file-alt"></i></div>
+          <h3>Не хотите погружаться в бумажную волокиту</h3>
+          <p>Доверьте оформление документов профессионалам — мы возьмем на всю подготовку и согласование.</p>
+        </div>
+        <div class="when-card">
+          <div class="when-icon"><i class="fas fa-clock"></i></div>
+          <h3>Сколково кажется сложным и долгим процессом</h3>
+          <p>Разбираемся во всех нюансах и сокращаем путь от идеи до статуса резидента до 90 дней.</p>
+        </div>
+        <div class="when-card">
+          <div class="when-icon"><i class="fas fa-chart-line"></i></div>
+          <h3>Хотите сосредоточиться на развитии продукта</h3>
+          <p>Пока вы занимаетесь технологиями и ростом компании, мы решаем все вопросы с фондом Сколково.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ДОРОЖНАЯ КАРТА: КАК ПОЛУЧИТЬ РЕЗИДЕНТСТВО (4 ШАГА) -->
+  <section class="process" id="process">
+    <div class="process-container">
+      <div class="section-title-center"><h2>Как получить резидентство</h2><p>Мы сопровождаем вас на всех этапах</p></div>
+      <div class="process-steps">
+        <div class="process-step"><div class="step-number">1</div><h3 class="step-title">Анализ</h3><p>Оценка проекта на соответствие критериям</p></div>
+        <div class="process-step"><div class="step-number">2</div><h3 class="step-title">Подготовка</h3><p>Сбор документов и формирование заявки</p></div>
+        <div class="process-step"><div class="step-number">3</div><h3 class="step-title">Подача</h3><p>Официальная подача заявки и сопровождение</p></div>
+        <div class="process-step"><div class="step-number">4</div><h3 class="step-title">Результат</h3><p>Получение статуса и дальнейшее сопровождение</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="calculator" id="calculator">
+    <div class="calculator-container">
+      <div class="section-title-center"><h2>Калькулятор экономии</h2><p>Рассчитайте выгоду от налоговых льгот</p></div>
+      <div class="calculator-inputs">
+        <div class="input-group"><label><i class="fas fa-chart-line"></i> Годовая выручка (₽)</label><input type="number" id="revenue" value="15000000"></div>
+        <div class="input-group"><label><i class="fas fa-users"></i> Кол-во сотрудников</label><input type="number" id="employees" value="12"></div>
+        <div class="input-group"><label><i class="fas fa-money-bill"></i> Средняя з/п (₽)</label><input type="number" id="salary" value="180000"></div>
+        <div class="input-group"><label><i class="fas fa-percent"></i> Текущая ставка (%)</label><input type="number" id="currentTax" value="30"></div>
+      </div>
+      <button class="btn" onclick="calculateSavings()" style="width:100%"><i class="fas fa-calculator"></i> Рассчитать</button>
+      <div class="calculator-result" id="resultContainer"><div class="result-amount" id="resultAmount">0 ₽</div><p id="resultDetails" style="margin-top:10px"></p></div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="cta-container"><h2 class="cta-title">Готовы стать резидентом Сколково?</h2><p>Оставьте заявку и получите бесплатную консультацию</p><button class="btn" onclick="openModal()"><i class="fas fa-paper-plane"></i> Оставить заявку</button></div>
+  </section>
+
+  <footer id="footer">
+    <div class="footer-container">
+      <div class="footer-col"><div class="footer-logo"><i class="fas fa-cube"></i><span>ResidentX</span></div><p class="footer-description">Профессиональное сопровождение IT-стартапов для получения резидентства инновационного центра Сколково. Помогаем пройти путь от идеи до статуса резидента.</p><div class="social-links"><a href="#" class="social-link"><i class="fab fa-telegram"></i></a><a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a><a href="#" class="social-link"><i class="fas fa-envelope"></i></a></div></div>
+      <div class="footer-col"><h3 class="footer-title">Контакты</h3><div class="contact-info"><div class="contact-row"><i class="fas fa-phone"></i><span>+7 (495) 123-45-67</span></div><div class="contact-row"><i class="fas fa-envelope"></i><span>info@residentx.ru</span></div><div class="contact-row"><i class="fab fa-telegram"></i><span>@residentx_support</span></div><div class="contact-row"><i class="fas fa-clock"></i><span>Пн-Пт: 10:00-19:00</span></div></div></div>
+    </div>
+    <div class="copyright">© 2026 ResidentX. Все права защищены.</div>
+  </footer>
+
+  <div class="modal" id="modal"><div class="modal-content"><button class="close-modal" onclick="closeModal()">×</button><h2 style="margin-bottom:20px">Заявка на консультацию</h2><div class="form-group"><input type="text" placeholder="Ваше имя" id="clientName"></div><div class="form-group"><input type="tel" placeholder="Телефон" id="clientPhone"></div><div class="form-group"><input type="text" placeholder="E-mail или Telegram" id="clientContact"></div><button class="btn" onclick="submitForm()" style="width:100%">Отправить заявку</button></div></div>
+
+  <script>
+    window.addEventListener('load', function() { window.scrollTo(0, 0); });
+    if (history.scrollRestoration) history.scrollRestoration = 'manual';
+    function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    window.addEventListener('scroll', function() {
+      const header = document.getElementById('header');
+      if (window.scrollY > 50) header.classList.add('header-scrolled');
+      else header.classList.remove('header-scrolled');
+    });
+    
+    function calculateSavings() {
+      const employees = parseInt(document.getElementById('employees').value) || 0;
+      const salary = parseFloat(document.getElementById('salary').value) || 0;
+      const currentTax = parseFloat(document.getElementById('currentTax').value) || 0;
+      const annualSalary = employees * salary * 12;
+      const currentTaxes = annualSalary * (currentTax / 100);
+      const skolkovoTaxes = annualSalary * 0.14;
+      const savings = currentTaxes - skolkovoTaxes;
+      const resultAmount = document.getElementById('resultAmount');
+      const resultDetails = document.getElementById('resultDetails');
+      if (savings > 0) { animateValue(resultAmount, 0, savings, 1500); resultDetails.textContent = `Годовой ФОТ: ${new Intl.NumberFormat('ru-RU').format(Math.round(annualSalary))} ₽`; }
+      else { resultAmount.textContent = '0 ₽'; resultDetails.textContent = 'Свяжитесь для индивидуального расчета'; }
+      document.getElementById('resultContainer').classList.add('show');
+    }
+    
+    function animateValue(element, start, end, duration) { let startTimestamp = null; const step = (timestamp) => { if (!startTimestamp) startTimestamp = timestamp; const progress = Math.min((timestamp - startTimestamp) / duration, 1); const value = Math.floor(progress * (end - start) + start); element.textContent = new Intl.NumberFormat('ru-RU').format(value) + ' ₽'; if (progress < 1) window.requestAnimationFrame(step); }; window.requestAnimationFrame(step); }
+    
+    function openModal() { document.getElementById('modal').style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+    function closeModal() { document.getElementById('modal').style.display = 'none'; document.body.style.overflow = 'auto'; }
+    document.getElementById('modal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+    function submitForm() { const name = document.getElementById('clientName').value; const phone = document.getElementById('clientPhone').value; if (!name || !phone) { alert('Пожалуйста, заполните имя и телефон'); return; } alert(`Спасибо, ${name}! Мы свяжемся с вами.`); closeModal(); }
+    
+    document.getElementById('mobileMenuBtn').addEventListener('click', function() { const navLinks = document.querySelector('.nav-links'); if (navLinks.style.display === 'flex') navLinks.style.display = 'none'; else { navLinks.style.display = 'flex'; navLinks.style.flexDirection = 'column'; navLinks.style.position = 'absolute'; navLinks.style.top = '70px'; navLinks.style.right = '30px'; navLinks.style.background = 'white'; navLinks.style.padding = '20px'; navLinks.style.borderRadius = '16px'; navLinks.style.boxShadow = '0 10px 30px var(--shadow-color)'; navLinks.style.border = '2px solid var(--accent-light)'; navLinks.style.zIndex = '1000'; navLinks.style.width = '200px'; } });
+    
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => { anchor.addEventListener('click', function(e) { e.preventDefault(); const target = document.querySelector(this.getAttribute('href')); if (target) window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' }); }); });
+  </script>
+</body>
+</html>

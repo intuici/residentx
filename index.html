@@ -490,7 +490,7 @@
     }
 
     .calculator-container {
-      max-width: 900px;
+      max-width: 1000px;
       margin: 0 auto;
       background: var(--white);
       border-radius: 30px;
@@ -512,7 +512,7 @@
 
     .input-group label {
       margin-bottom: 8px;
-      font-weight: 500;
+      font-weight: 600;
       color: var(--text-dark);
       display: flex;
       align-items: center;
@@ -526,6 +526,7 @@
       border-radius: 16px;
       color: var(--text-dark);
       font-size: 1rem;
+      font-weight: 500;
     }
 
     .input-group input:focus {
@@ -538,7 +539,7 @@
       padding: 35px;
       background: var(--bg-secondary);
       border-radius: 20px;
-      margin-top: 40px;
+      margin-top: 30px;
       border: 2px solid var(--accent-light);
     }
 
@@ -546,6 +547,27 @@
       font-size: 3.5rem;
       font-weight: 700;
       color: var(--accent-dark);
+    }
+    
+    .calc-note {
+      margin-top: 20px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      background: rgba(79, 111, 143, 0.1);
+      padding: 12px 18px;
+      border-radius: 20px;
+      text-align: left;
+      border-left: 3px solid var(--accent-dark);
+    }
+    
+    .calc-note i {
+      margin-right: 8px;
+      color: var(--accent-dark);
+    }
+
+    .result-detail {
+      font-size: 0.95rem;
+      margin-top: 15px;
     }
 
     /* ===== CTA ===== */
@@ -726,6 +748,8 @@
       .when-grid { grid-template-columns: 1fr; }
       .calculator-inputs { grid-template-columns: 1fr; }
       .hero { background-position: center 20%; }
+      .calculator-container { padding: 30px 20px; }
+      .result-amount { font-size: 2.5rem; }
     }
   </style>
 </head>
@@ -824,17 +848,26 @@
     </div>
   </section>
 
+  <!-- НОВЫЙ КАЛЬКУЛЯТОР ПО ФОРМУЛАМ С ПРИМЕРА -->
   <section class="calculator" id="calculator">
     <div class="calculator-container">
       <div class="section-title-center"><h2>Калькулятор экономии</h2><p>Рассчитайте выгоду от налоговых льгот</p></div>
       <div class="calculator-inputs">
-        <div class="input-group"><label><i class="fas fa-chart-line"></i> Годовая выручка (₽)</label><input type="number" id="revenue" value="15000000"></div>
-        <div class="input-group"><label><i class="fas fa-users"></i> Кол-во сотрудников</label><input type="number" id="employees" value="12"></div>
-        <div class="input-group"><label><i class="fas fa-money-bill"></i> Средняя з/п (₽)</label><input type="number" id="salary" value="180000"></div>
-        <div class="input-group"><label><i class="fas fa-percent"></i> Текущая ставка (%)</label><input type="number" id="currentTax" value="30"></div>
+        <div class="input-group"><label><i class="fas fa-chart-line"></i> Выручка за год (₽)</label><input type="text" id="revenue" value="100 000 000"></div>
+        <div class="input-group"><label><i class="fas fa-users"></i> Кол-во сотрудников</label><input type="text" id="employees" value="10"></div>
+        <div class="input-group"><label><i class="fas fa-money-bill"></i> Средняя з/п в месяц (₽)</label><input type="text" id="salary" value="100 000"></div>
       </div>
-      <button class="btn" onclick="calculateSavings()" style="width:100%"><i class="fas fa-calculator"></i> Рассчитать</button>
-      <div class="calculator-result" id="resultContainer"><div class="result-amount" id="resultAmount">0 ₽</div><p id="resultDetails" style="margin-top:10px"></p></div>
+      <button class="btn" onclick="calculateSavings()" style="width:100%"><i class="fas fa-calculator"></i> Рассчитать экономию</button>
+      <div class="calculator-result" id="resultContainer">
+        <div class="result-amount" id="resultAmount">26 800 000 ₽</div>
+        <div id="resultDetails" class="result-detail"></div>
+        <div id="vatNote" class="result-detail" style="font-size:0.9rem; color:#4f6f8f;"></div>
+      </div>
+      <!-- Примечание со звездочкой (перефразировано) -->
+      <div class="calc-note">
+        <i class="fas fa-asterisk" style="font-size: 0.7rem; vertical-align: super;"></i> 
+        <strong>Важно:</strong> Представленный расчёт носит предварительный характер и базируется на усреднённых параметрах (маржинальность 15%, ставка налога на прибыль 20%, НДС 22% при выручке >20 млн ₽, взносы 30% → 15%). Для точного определения налоговой экономии требуется индивидуальный анализ с учётом специфики вашего бизнеса. Данные не являются официальным разъяснением или публичной офертой.
+      </div>
     </div>
   </section>
 
@@ -862,31 +895,129 @@
       else header.classList.remove('header-scrolled');
     });
     
-    function calculateSavings() {
-      const employees = parseInt(document.getElementById('employees').value) || 0;
-      const salary = parseFloat(document.getElementById('salary').value) || 0;
-      const currentTax = parseFloat(document.getElementById('currentTax').value) || 0;
-      const annualSalary = employees * salary * 12;
-      const currentTaxes = annualSalary * (currentTax / 100);
-      const skolkovoTaxes = annualSalary * 0.14;
-      const savings = currentTaxes - skolkovoTaxes;
-      const resultAmount = document.getElementById('resultAmount');
-      const resultDetails = document.getElementById('resultDetails');
-      if (savings > 0) { animateValue(resultAmount, 0, savings, 1500); resultDetails.textContent = `Годовой ФОТ: ${new Intl.NumberFormat('ru-RU').format(Math.round(annualSalary))} ₽`; }
-      else { resultAmount.textContent = '0 ₽'; resultDetails.textContent = 'Свяжитесь для индивидуального расчета'; }
-      document.getElementById('resultContainer').classList.add('show');
+    // НОВЫЙ КАЛЬКУЛЯТОР НА ОСНОВЕ ФОРМУЛ С ПРИМЕРА
+    const PROFIT_MARGIN = 0.15;      // маржинальность 15%
+    const PROFIT_TAX_RATE = 0.20;    // налог на прибыль 20%
+    const VAT_RATE = 0.22;           // НДС 22%
+    const VAT_THRESHOLD = 20000000;  // порог для НДС 20 млн руб.
+    const INS_NORMAL = 0.30;         // обычные страховые взносы 30%
+    const INS_SK = 0.15;             // льготные взносы Сколково 15%
+    
+    function cleanNumber(value) {
+      if (!value) return 0;
+      const digits = String(value).replace(/[^\d]/g, '');
+      return digits ? parseInt(digits, 10) : 0;
     }
     
-    function animateValue(element, start, end, duration) { let startTimestamp = null; const step = (timestamp) => { if (!startTimestamp) startTimestamp = timestamp; const progress = Math.min((timestamp - startTimestamp) / duration, 1); const value = Math.floor(progress * (end - start) + start); element.textContent = new Intl.NumberFormat('ru-RU').format(value) + ' ₽'; if (progress < 1) window.requestAnimationFrame(step); }; window.requestAnimationFrame(step); }
+    function formatNumber(num) {
+      return Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    }
+    
+    function formatRub(amount) {
+      return formatNumber(amount) + ' ₽';
+    }
+    
+    function attachFormatting(el) {
+      if (!el) return;
+      el.addEventListener('focus', function() {
+        let raw = cleanNumber(el.value);
+        el.value = raw ? String(raw) : '';
+      });
+      el.addEventListener('blur', function() {
+        let raw = cleanNumber(el.value);
+        el.value = raw ? formatNumber(raw) : '';
+      });
+    }
+    
+    function calculateSavings() {
+      const revenueInput = document.getElementById('revenue');
+      const employeesInput = document.getElementById('employees');
+      const salaryInput = document.getElementById('salary');
+      
+      let revenue = cleanNumber(revenueInput.value);
+      let headcount = cleanNumber(employeesInput.value);
+      let salaryMonth = cleanNumber(salaryInput.value);
+      
+      // Расчет НДС
+      let vatNormal = revenue * VAT_RATE;
+      let vatSk = 0;
+      // Налог на прибыль (на основе маржинальности)
+      let profit = revenue * PROFIT_MARGIN;
+      let profitTaxNormal = profit * PROFIT_TAX_RATE;
+      let profitTaxSk = 0;
+      // Страховые взносы
+      let payrollYear = headcount * salaryMonth * 12;
+      let insNormal = payrollYear * INS_NORMAL;
+      let insSk = payrollYear * INS_SK;
+      
+      let totalSave = (vatNormal - vatSk) + (profitTaxNormal - profitTaxSk) + (insNormal - insSk);
+      
+      document.getElementById('resultAmount').innerHTML = formatRub(totalSave);
+      
+      let detailsHtml = `
+        <div style="display:flex; justify-content:space-between; margin-top:10px;"><span>НДС:</span> <strong>${formatRub(vatSk)}</strong> вместо ${formatRub(vatNormal)}</div>
+        <div style="display:flex; justify-content:space-between; margin-top:8px;"><span>Налог на прибыль:</span> <strong>${formatRub(profitTaxSk)}</strong> вместо ${formatRub(profitTaxNormal)}</div>
+        <div style="display:flex; justify-content:space-between; margin-top:8px;"><span>Страховые взносы:</span> <strong>${formatRub(insSk)}</strong> вместо ${formatRub(insNormal)}</div>
+      `;
+      document.getElementById('resultDetails').innerHTML = detailsHtml;
+      
+      let vatNoteText = '';
+      if (revenue > VAT_THRESHOLD) {
+        vatNoteText = '⚠️ Для выручки выше 20 млн ₽: при стандартной системе может возникать НДС 22% (в расчёте учтён).';
+      } else {
+        vatNoteText = '✅ Выручка менее 20 млн ₽: освобождение от НДС (в расчёте использована стандартная ставка для демонстрации потенциала экономии).';
+      }
+      document.getElementById('vatNote').innerHTML = vatNoteText;
+    }
+    
+    // Инициализация полей с форматированием
+    const revField = document.getElementById('revenue');
+    const empField = document.getElementById('employees');
+    const salField = document.getElementById('salary');
+    if (revField) attachFormatting(revField);
+    if (salField) attachFormatting(salField);
+    if (empField) {
+      empField.addEventListener('focus', () => { if (empField.value) empField.value = cleanNumber(empField.value); });
+      empField.addEventListener('blur', () => { if (empField.value) empField.value = cleanNumber(empField.value); });
+    }
+    
+    // Запускаем расчет при загрузке
+    if (typeof calculateSavings === 'function') setTimeout(() => calculateSavings(), 50);
     
     function openModal() { document.getElementById('modal').style.display = 'flex'; document.body.style.overflow = 'hidden'; }
     function closeModal() { document.getElementById('modal').style.display = 'none'; document.body.style.overflow = 'auto'; }
     document.getElementById('modal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
     function submitForm() { const name = document.getElementById('clientName').value; const phone = document.getElementById('clientPhone').value; if (!name || !phone) { alert('Пожалуйста, заполните имя и телефон'); return; } alert(`Спасибо, ${name}! Мы свяжемся с вами.`); closeModal(); }
     
-    document.getElementById('mobileMenuBtn').addEventListener('click', function() { const navLinks = document.querySelector('.nav-links'); if (navLinks.style.display === 'flex') navLinks.style.display = 'none'; else { navLinks.style.display = 'flex'; navLinks.style.flexDirection = 'column'; navLinks.style.position = 'absolute'; navLinks.style.top = '70px'; navLinks.style.right = '30px'; navLinks.style.background = 'white'; navLinks.style.padding = '20px'; navLinks.style.borderRadius = '16px'; navLinks.style.boxShadow = '0 10px 30px var(--shadow-color)'; navLinks.style.border = '2px solid var(--accent-light)'; navLinks.style.zIndex = '1000'; navLinks.style.width = '200px'; } });
+    const mobileBtn = document.getElementById('mobileMenuBtn');
+    if(mobileBtn){
+      mobileBtn.addEventListener('click', function() { 
+        const navLinks = document.querySelector('.nav-links'); 
+        if (navLinks.style.display === 'flex') navLinks.style.display = 'none'; 
+        else { 
+          navLinks.style.display = 'flex'; 
+          navLinks.style.flexDirection = 'column'; 
+          navLinks.style.position = 'absolute'; 
+          navLinks.style.top = '70px'; 
+          navLinks.style.right = '30px'; 
+          navLinks.style.background = 'white'; 
+          navLinks.style.padding = '20px'; 
+          navLinks.style.borderRadius = '16px'; 
+          navLinks.style.boxShadow = '0 10px 30px var(--shadow-color)'; 
+          navLinks.style.border = '2px solid var(--accent-light)'; 
+          navLinks.style.zIndex = '1000'; 
+          navLinks.style.width = '200px'; 
+        } 
+      });
+    }
     
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => { anchor.addEventListener('click', function(e) { e.preventDefault(); const target = document.querySelector(this.getAttribute('href')); if (target) window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' }); }); });
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => { 
+      anchor.addEventListener('click', function(e) { 
+        e.preventDefault(); 
+        const target = document.querySelector(this.getAttribute('href')); 
+        if (target) window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' }); 
+      }); 
+    });
   </script>
 </body>
 </html>
